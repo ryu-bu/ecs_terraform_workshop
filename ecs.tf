@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "web-cluster" {
   capacity_providers = [aws_ecs_capacity_provider.test.name]
   tags = {
     "env"       = "dev"
-    "createdBy" = "mkerimova"
+    "createdBy" = "gjohnson"
   }
 }
 
@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "task-definition-test" {
   network_mode          = "bridge"
   tags = {
     "env"       = "dev"
-    "createdBy" = "mkerimova"
+    "createdBy" = "gjohnson"
   }
 }
 
@@ -35,16 +35,17 @@ resource "aws_ecs_service" "service" {
   name            = "web-service"
   cluster         = aws_ecs_cluster.web-cluster.id
   task_definition = aws_ecs_task_definition.task-definition-test.arn
-  desired_count   = 10
+  desired_count   = 1
   ordered_placement_strategy {
     type  = "binpack"
     field = "cpu"
   }
   load_balancer {
-    target_group_arn = aws_lb_target_group.lb_target_group.arn
-    container_name   = "pink-slon"
-    container_port   = 80
+    target_group_arn = "${aws_lb_target_group.lb_target_group.arn}"
+    container_name   = "constellationjs-container"
+    container_port   = 8082
   }
+
   # Optional: Allow external changes without Terraform plan difference(for example ASG)
   lifecycle {
     ignore_changes = [desired_count]
@@ -57,6 +58,46 @@ resource "aws_cloudwatch_log_group" "log_group" {
   name = "/ecs/frontend-container"
   tags = {
     "env"       = "dev"
-    "createdBy" = "mkerimova"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecs_task_definition" "task-definition-eugenelab" {
+  family                = "eugenelab"
+  container_definitions = file("container-definitions/eugenelab-def.json")
+  network_mode          = "bridge"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecs_service" "eugenelab_service" {
+  name            = "eugenelab-service"
+  cluster         = aws_ecs_cluster.web-cluster.id
+  task_definition = aws_ecs_task_definition.task-definition-eugenelab.arn
+  desired_count   = 1
+  ordered_placement_strategy {
+    type  = "binpack"
+    field = "cpu"
+  }
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.eugenelab_lb_target_group.arn}"
+    container_name   = "eugenelab-container"
+    container_port   = 8080
+  }
+  # Optional: Allow external changes without Terraform plan difference(for example ASG)
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+  launch_type = "EC2"
+  depends_on  = [aws_lb_listener.eugenelab-listener]
+}
+
+resource "aws_cloudwatch_log_group" "eugenelab_log_group" {
+  name = "/ecs/eugenelab-container"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
   }
 }

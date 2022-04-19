@@ -2,6 +2,10 @@ output "alb_dns" {
   value = aws_lb.test-lb.dns_name
 }
 
+output "eugenelab_dns" {
+  value = aws_lb.eugenelab-lb.dns_name
+}
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }

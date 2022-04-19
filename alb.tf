@@ -1,11 +1,11 @@
 resource "aws_lb" "test-lb" {
-  name               = "test-ecs-lb"
+  name               = "constellation"
   load_balancer_type = "application"
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
     "env"       = "dev"
-    "createdBy" = "mkerimova"
+    "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
 }
@@ -28,13 +28,13 @@ resource "aws_security_group" "lb" {
 
   tags = {
     "env"       = "dev"
-    "createdBy" = "mkerimova"
+    "createdBy" = "gjohnson"
   }
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
-  name        = "masha-target-group"
-  port        = "80"
+  name        = "constellationjs-target-group"
+  port        = "8082"
   protocol    = "HTTP"
   target_type = "instance"
   vpc_id      = data.aws_vpc.main.id
@@ -53,7 +53,73 @@ resource "aws_lb_listener" "web-listener" {
   port              = "80"
   protocol          = "HTTP"
   default_action {
-    type             = "forward"
+    type             = "redirect"
+    redirect {
+              host        = "#{host}"
+              path        = "/#{path}"
+              port        = "443"
+              protocol    = "HTTPS"
+              query       = "#{query}"
+              status_code = "HTTP_301"
+            }
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
 }
+
+# Eugene 
+resource "aws_lb" "eugenelab-lb" {
+  name               = "eugenelab"
+  load_balancer_type = "application"
+  internal           = false
+  subnets            = module.vpc.public_subnets
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+  security_groups = [aws_security_group.lb.id]
+}
+
+resource "aws_lb_target_group" "eugenelab_lb_target_group" {
+  name        = "eugenelab-target-group"
+  port        = "8080"
+  protocol    = "HTTP"
+  target_type = "instance"
+  vpc_id      = data.aws_vpc.main.id
+  health_check {
+    path                = "/"
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    interval            = 300
+    matcher             = "200,301,302"
+  }
+}
+
+resource "aws_lb_listener" "eugenelab-secure-listener" {
+  load_balancer_arn = aws_lb.eugenelab-lb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.eugenelab_lb_target_group.arn
+  }
+}
+
+resource "aws_lb_listener" "eugenelab-listener" {
+  load_balancer_arn = aws_lb.eugenelab-lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "redirect"
+    redirect {
+              host        = "#{host}"
+              path        = "/#{path}"
+              port        = "443"
+              protocol    = "HTTPS"
+              query       = "#{query}"
+              status_code = "HTTP_301"
+            }
+    target_group_arn = aws_lb_target_group.eugenelab_lb_target_group.arn
+  }
+}
+

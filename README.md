@@ -6,7 +6,11 @@ This is the example of creating a simple infrastructure using Terraform and AWS 
 - Virtual Private Cloud (VPC) with 3 public subnets in 3 availability zones
 - Elastic Container Service (ECS)
 - Application Load Balancer (ALB)
-
+An overview can be found on Youtube of the above infrastructure [here](https://youtu.be/Ky7sph6fBtM?t=881)
+## Prerequisites
+Create SSH Keys in AWS (pem files to access servers)
+Install Terraform
+Create appropriate roles to access AWS rresources
 ## How to create the infrastructure?
 This example implies that you have already AWS account and Terraform CLI installed.
 1. `git clone https://github.com/mashun4ek/ecs_terraform_workshop.git`
