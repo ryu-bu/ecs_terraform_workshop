@@ -68,14 +68,14 @@ resource "aws_autoscaling_group" "asg" {
   health_check_grace_period = 300
   vpc_zone_identifier       = module.vpc.public_subnets
 
-  target_group_arns     = [aws_lb_target_group.lb_target_group.arn, aws_lb_target_group.eugenelab_lb_target_group.arn]
+  target_group_arns     = [aws_lb_target_group.lb_target_group.arn]
   protect_from_scale_in = true
   lifecycle {
     create_before_destroy = true
   }
 }
 
-resource "aws_launch_configuration" "lc" {
+resource "aws_launch_configuration" "nona_lc" {
   name          = "nona_ecs"
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t3.micro"
@@ -93,9 +93,9 @@ sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
 EOF
 }
 
-resource "aws_autoscaling_group" "asg" {
+resource "aws_autoscaling_group" "nona_asg" {
   name                      = "nona-asg"
-  launch_configuration      = aws_launch_configuration.lc.name
+  launch_configuration      = aws_launch_configuration.nona_lc.name
   min_size                  = 1
   max_size                  = 1
   desired_capacity          = 1
@@ -103,7 +103,7 @@ resource "aws_autoscaling_group" "asg" {
   health_check_grace_period = 300
   vpc_zone_identifier       = module.vpc.public_subnets
 
-  target_group_arns     = [aws_lb_target_group.lb_target_group.arn, aws_lb_target_group.eugenelab_lb_target_group.arn]
+  target_group_arns     = [aws_lb_target_group.lb_target_group.arn, aws_lb_target_group.eugenelab_lb_target_group.arn, aws_lb_target_group.fpselection_lb_target_group.arn]
   protect_from_scale_in = true
   lifecycle {
     create_before_destroy = true

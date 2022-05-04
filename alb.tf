@@ -99,6 +99,7 @@ resource "aws_lb_listener" "eugenelab-secure-listener" {
   load_balancer_arn = aws_lb.eugenelab-lb.arn
   port              = "443"
   protocol          = "HTTPS"
+  certificate_arn   = "arn:aws:acm:us-east-1:464116869262:certificate/fd4920b6-9ec2-4f99-b203-46696e7251eb"
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.eugenelab_lb_target_group.arn
@@ -120,6 +121,45 @@ resource "aws_lb_listener" "eugenelab-listener" {
               status_code = "HTTP_301"
             }
     target_group_arn = aws_lb_target_group.eugenelab_lb_target_group.arn
+  }
+}
+
+# fpselection 
+resource "aws_lb" "fpselection-lb" {
+  name               = "fpselection"
+  load_balancer_type = "application"
+  internal           = false
+  subnets            = module.vpc.public_subnets
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+  security_groups = [aws_security_group.lb.id]
+}
+
+resource "aws_lb_target_group" "fpselection_lb_target_group" {
+  name        = "fpselection-target-group"
+  port        = "8080"
+  protocol    = "HTTP"
+  target_type = "instance"
+  vpc_id      = data.aws_vpc.main.id
+  health_check {
+    path                = "/"
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    interval            = 300
+    matcher             = "200,301,302"
+  }
+}
+
+resource "aws_lb_listener" "fpselection-secure-listener" {
+  load_balancer_arn = aws_lb.fpselection-lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.fpselection_lb_target_group.arn
   }
 }
 

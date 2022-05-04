@@ -17,12 +17,12 @@ resource "aws_ecr_lifecycle_policy" "eugene_repo_policy" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Expire images older than 14 days",
+            "description": "Expire images older than 700 days",
             "selection": {
                 "tagStatus": "any",
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
-                "countNumber": 14
+                "countNumber": 700
             },
             "action": {
                 "type": "expire"
@@ -51,12 +51,12 @@ resource "aws_ecr_lifecycle_policy" "constellationjs_repo_policy" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Expire images older than 14 days",
+            "description": "Expire images older than 700 days",
             "selection": {
                 "tagStatus": "any",
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
-                "countNumber": 14
+                "countNumber": 700
             },
             "action": {
                 "type": "expire"
@@ -86,12 +86,12 @@ resource "aws_ecr_lifecycle_policy" "fluigicloud_repo_policy" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Expire images older than 14 days",
+            "description": "Expire images older than 700 days",
             "selection": {
                 "tagStatus": "any",
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
-                "countNumber": 14
+                "countNumber": 700
             },
             "action": {
                 "type": "expire"
@@ -121,12 +121,12 @@ resource "aws_ecr_lifecycle_policy" "raven_repo_policy" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Expire images older than 14 days",
+            "description": "Expire images older than 700 days",
             "selection": {
                 "tagStatus": "any",
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
-                "countNumber": 14
+                "countNumber": 700
             },
             "action": {
                 "type": "expire"
@@ -156,12 +156,12 @@ resource "aws_ecr_lifecycle_policy" "clothov3_repo_policy" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Expire images older than 14 days",
+            "description": "Expire images older than 700 days",
             "selection": {
                 "tagStatus": "any",
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
-                "countNumber": 14
+                "countNumber": 700
             },
             "action": {
                 "type": "expire"
@@ -192,12 +192,12 @@ resource "aws_ecr_lifecycle_policy" "cellov1_repo_policy" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Expire images older than 14 days",
+            "description": "Expire images older than 700 days",
             "selection": {
                 "tagStatus": "any",
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
-                "countNumber": 14
+                "countNumber": 700
             },
             "action": {
                 "type": "expire"
@@ -227,12 +227,48 @@ resource "aws_ecr_lifecycle_policy" "fpselection_repo_policy" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Expire images older than 14 days",
+            "description": "Expire images older than 700 days",
             "selection": {
                 "tagStatus": "any",
                 "countType": "sinceImagePushed",
                 "countUnit": "days",
-                "countNumber": 14
+                "countNumber": 700
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
+}
+EOF
+}
+
+
+resource "aws_ecr_repository" "parchmint_repo" {
+  name                 = "parchmint"
+  image_tag_mutability = "MUTABLE"
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecr_lifecycle_policy" "parchmint_repo_policy" {
+  repository = aws_ecr_repository.parchmint_repo.name
+  policy     = <<EOF
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Expire images older than 700 days",
+            "selection": {
+                "tagStatus": "any",
+                "countType": "sinceImagePushed",
+                "countUnit": "days",
+                "countNumber": 700
             },
             "action": {
                 "type": "expire"

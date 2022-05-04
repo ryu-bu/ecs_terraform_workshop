@@ -20,6 +20,31 @@ resource "aws_ecs_capacity_provider" "test" {
   }
 }
 
+resource "aws_ecs_cluster" "clotho-cello" {
+  name               = "clotho-cello"
+  capacity_providers = [aws_ecs_capacity_provider.clotho-cello.name]
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecs_capacity_provider" "clotho-cello" {
+  name = "capacity-provider-clotho-cello"
+  auto_scaling_group_provider {
+    auto_scaling_group_arn         = aws_autoscaling_group.nona_asg.arn
+    managed_termination_protection = "ENABLED"
+
+    managed_scaling {
+      status          = "ENABLED"
+      target_capacity = 85
+    }
+  }
+}
+
+
+# Containers and definitions
+
 # update file container-def, so it's pulling image from ecr
 resource "aws_ecs_task_definition" "task-definition-test" {
   family                = "web-family"
@@ -62,6 +87,8 @@ resource "aws_cloudwatch_log_group" "log_group" {
   }
 }
 
+
+# Eugene
 resource "aws_ecs_task_definition" "task-definition-eugenelab" {
   family                = "eugenelab"
   container_definitions = file("container-definitions/eugenelab-def.json")
@@ -91,7 +118,7 @@ resource "aws_ecs_service" "eugenelab_service" {
     ignore_changes = [desired_count]
   }
   launch_type = "EC2"
-  depends_on  = [aws_lb_listener.eugenelab-listener]
+  depends_on  = [aws_lb_listener.eugenelab-listener, aws_lb_listener.eugenelab-secure-listener]
 }
 
 resource "aws_cloudwatch_log_group" "eugenelab_log_group" {
@@ -101,3 +128,45 @@ resource "aws_cloudwatch_log_group" "eugenelab_log_group" {
     "createdBy" = "gjohnson"
   }
 }
+
+# fpselection
+resource "aws_ecs_task_definition" "task-definition-fpselection" {
+  family                = "fpselection"
+  container_definitions = file("container-definitions/fpselection-def.json")
+  network_mode          = "bridge"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecs_service" "fpselection_service" {
+  name            = "fpselection-service"
+  cluster         = aws_ecs_cluster.clotho-cello.id
+  task_definition = aws_ecs_task_definition.task-definition-fpselection.arn
+  desired_count   = 1
+  ordered_placement_strategy {
+    type  = "binpack"
+    field = "cpu"
+  }
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.fpselection_lb_target_group.arn}"
+    container_name   = "fpselection-container"
+    container_port   = 8080
+  }
+  # Optional: Allow external changes without Terraform plan difference(for example ASG)
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+  launch_type = "EC2"
+  depends_on  = [aws_lb_listener.fpselection-secure-listener]
+}
+
+resource "aws_cloudwatch_log_group" "fpselection_log_group" {
+  name = "/ecs/fpselection-container"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
