@@ -3,7 +3,7 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami*amazon-ecs-optimized"]
+    values = ["amzn-ami-2018*"]
   }
 
   filter {
@@ -62,7 +62,7 @@ resource "aws_autoscaling_group" "asg" {
   name                      = "test-asg"
   launch_configuration      = aws_launch_configuration.lc.name
   min_size                  = 1
-  max_size                  = 1
+  max_size                  = 2
   desired_capacity          = 1
   health_check_type         = "ELB"
   health_check_grace_period = 300
@@ -78,7 +78,7 @@ resource "aws_autoscaling_group" "asg" {
 resource "aws_launch_configuration" "nona_lc" {
   name          = "nona_ecs"
   image_id      = data.aws_ami.amazon_linux.id
-  instance_type = "t3.micro"
+  instance_type = "t2.micro"
   lifecycle {
     create_before_destroy = true
   }
@@ -95,15 +95,15 @@ EOF
 
 resource "aws_autoscaling_group" "nona_asg" {
   name                      = "nona-asg"
-  launch_configuration      = aws_launch_configuration.nona_lc.name
+  launch_configuration      = aws_launch_configuration.lc.name
   min_size                  = 1
-  max_size                  = 1
+  max_size                  = 2
   desired_capacity          = 1
   health_check_type         = "ELB"
   health_check_grace_period = 300
   vpc_zone_identifier       = module.vpc.public_subnets
 
-  target_group_arns     = [aws_lb_target_group.lb_target_group.arn, aws_lb_target_group.eugenelab_lb_target_group.arn, aws_lb_target_group.fpselection_lb_target_group.arn]
+  target_group_arns     = [aws_lb_target_group.lb_target_group.arn, aws_lb_target_group.eugenelab_lb_target_group.arn, aws_lb_target_group.fpselection_lb_target_group.arn, aws_lb_target_group.minieugene_lb_target_group.arn]
   protect_from_scale_in = true
   lifecycle {
     create_before_destroy = true

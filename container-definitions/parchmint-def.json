@@ -1,9 +1,9 @@
 [
     {
-      "name": "eugenelab-container",
-      "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/eugenerepo:latest",
+      "name": "parchmint-container",
+      "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/parchmint:latest",
       "cpu": 10,
-      "memory": 300,
+      "memory": 256,
       "essential": true,
       "portMappings": [
         {
@@ -13,7 +13,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": { 
-          "awslogs-group" : "/ecs/eugenelab-container",
+          "awslogs-group" : "/ecs/parchmint-container",
           "awslogs-region": "us-east-1"
         }
       }

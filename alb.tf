@@ -163,3 +163,83 @@ resource "aws_lb_listener" "fpselection-secure-listener" {
   }
 }
 
+
+# parchmint 
+resource "aws_lb" "parchmint-lb" {
+  name               = "parchmint"
+  load_balancer_type = "application"
+  internal           = false
+  subnets            = module.vpc.public_subnets
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+  security_groups = [aws_security_group.lb.id]
+}
+
+resource "aws_lb_target_group" "parchmint_lb_target_group" {
+  name        = "parchmint-target-group"
+  port        = "8080"
+  protocol    = "HTTP"
+  target_type = "instance"
+  vpc_id      = data.aws_vpc.main.id
+  health_check {
+    path                = "/"
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    interval            = 300
+    matcher             = "200,301,302"
+  }
+}
+
+resource "aws_lb_listener" "parchmint-secure-listener" {
+  load_balancer_arn = aws_lb.parchmint-lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.parchmint_lb_target_group.arn
+  }
+}
+
+
+# minieugene 
+resource "aws_lb" "minieugene-lb" {
+  name               = "minieugene"
+  load_balancer_type = "application"
+  internal           = false
+  subnets            = module.vpc.public_subnets
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+  security_groups = [aws_security_group.lb.id]
+}
+
+resource "aws_lb_target_group" "minieugene_lb_target_group" {
+  name        = "minieugene-target-group"
+  port        = "8080"
+  protocol    = "HTTP"
+  target_type = "instance"
+  vpc_id      = data.aws_vpc.main.id
+  health_check {
+    path                = "/"
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    interval            = 300
+    matcher             = "200,301,302"
+  }
+}
+
+resource "aws_lb_listener" "minieugene-secure-listener" {
+  load_balancer_arn = aws_lb.minieugene-lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.minieugene_lb_target_group.arn
+  }
+}
+

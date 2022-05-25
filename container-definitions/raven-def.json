@@ -2,8 +2,8 @@
     {
       "name": "raven-container",
       "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/raven:latest",
-      "cpu": 20,
-      "memory": 512,
+      "cpu": 10,
+      "memory": 256,
       "essential": true,
       "portMappings": [
         {

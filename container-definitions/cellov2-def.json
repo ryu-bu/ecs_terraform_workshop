@@ -1,9 +1,9 @@
 [
     {
-      "name": "eugenelab-container",
-      "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/eugenerepo:latest",
-      "cpu": 10,
-      "memory": 300,
+      "name": "cellov2-container",
+      "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/cellov2:latest",
+      "cpu": 20,
+      "memory": 512,
       "essential": true,
       "portMappings": [
         {
@@ -13,7 +13,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": { 
-          "awslogs-group" : "/ecs/eugenelab-container",
+          "awslogs-group" : "/ecs/cellov2-container",
           "awslogs-region": "us-east-1"
         }
       }

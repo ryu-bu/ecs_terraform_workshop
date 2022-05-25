@@ -10,6 +10,14 @@ output "fpselection_dns" {
   value = aws_lb.fpselection-lb.dns_name
 }
 
+output "parchmint_dns" {
+  value = aws_lb.parchmint-lb.dns_name
+}
+
+output "minieugene_dns" {
+  value = aws_lb.minieugene-lb.dns_name
+}
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
