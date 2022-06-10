@@ -21,6 +21,21 @@ resource "aws_ecs_capacity_provider" "test" {
 }
 
 
+
+# volume
+resource "aws_efs_file_system" "cellov2_storage" {
+  creation_token = "nona_efs"
+  encrypted = true
+  tags = {
+    Name = "ECS-EFS-FS-NONA"
+  }
+}
+
+resource "aws_efs_mount_target" "nona-mount" {
+  file_system_id = aws_efs_file_system.cellov2_storage.id
+  subnet_id      = "subnet-052eecc33236879ab"
+}
+
 # Containers and definitions
 
 # update file container-def, so it's pulling image from ecr
@@ -276,6 +291,13 @@ resource "aws_cloudwatch_log_group" "cellov1_log_group" {
 resource "aws_ecs_task_definition" "task-definition-cellov2" {
   family                = "cellov2"
   container_definitions = file("container-definitions/cellov2-def.json")
+  volume {
+    name      = "cellov2-storage"
+    efs_volume_configuration {
+      file_system_id = aws_efs_file_system.cellov2_storage.id
+      root_directory = "/data"
+    }
+  }
   network_mode          = "bridge"
   tags = {
     "env"       = "dev"

@@ -41,7 +41,7 @@ resource "aws_security_group" "ec2-sg" {
 }
 
 resource "aws_launch_configuration" "lc" {
-  name          = "test_ecs"
+  name_prefix   = "test_ecs"
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t2.micro"
   lifecycle {
@@ -76,7 +76,7 @@ resource "aws_autoscaling_group" "asg" {
 }
 
 resource "aws_launch_configuration" "nona_lc" {
-  name          = "nona_ecs"
+  name_prefix   = "nona_ecs"
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t3.micro"
   lifecycle {
