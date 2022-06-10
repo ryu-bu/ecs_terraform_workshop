@@ -2,7 +2,7 @@
     {
       "name": "eugenelab-container",
       "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/eugenerepo:latest",
-      "cpu": 10,
+      "cpu": 100,
       "memory": 300,
       "essential": true,
       "portMappings": [

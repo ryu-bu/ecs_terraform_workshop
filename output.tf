@@ -18,6 +18,18 @@ output "minieugene_dns" {
   value = aws_lb.minieugene-lb.dns_name
 }
 
+output "cellov1_dns" {
+  value = aws_lb.cellov1-lb.dns_name
+}
+
+output "cellov2_dns" {
+  value = aws_lb.cellov2-lb.dns_name
+}
+
+output "clothov4_dns" {
+  value = aws_lb.clothov4-lb.dns_name
+}
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }

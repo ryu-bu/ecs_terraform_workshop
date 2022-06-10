@@ -2,7 +2,7 @@
     {
       "name": "fpselection-container",
       "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/fpselection:latest",
-      "cpu": 10,
+      "cpu": 40,
       "memory": 300,
       "essential": true,
       "portMappings": [

@@ -2,8 +2,8 @@
     {
       "name": "minieugene-container",
       "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/minieugene:latest",
-      "cpu": 10,
-      "memory": 300,
+      "cpu": 100,
+      "memory": 200,
       "essential": true,
       "portMappings": [
         {

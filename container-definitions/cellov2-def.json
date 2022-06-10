@@ -2,12 +2,22 @@
     {
       "name": "cellov2-container",
       "image": "464116869262.dkr.ecr.us-east-1.amazonaws.com/cellov2:latest",
-      "cpu": 20,
-      "memory": 512,
+      "cpu": 150,
+      "memory": 300,
       "essential": true,
       "portMappings": [
         {
           "containerPort": 8080
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "cellov2-storage",
+          "containerPath": "/data/db"
+        },
+        {
+          "sourceVolume": "cellov2-storage",
+          "containerPath": "/root"
         }
       ],
       "logConfiguration": {

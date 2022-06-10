@@ -230,3 +230,126 @@ resource "aws_cloudwatch_log_group" "minieugene_log_group" {
     "createdBy" = "gjohnson"
   }
 }
+
+# cellov1
+resource "aws_ecs_task_definition" "task-definition-cellov1" {
+  family                = "cellov1"
+  container_definitions = file("container-definitions/cellov1-def.json")
+  network_mode          = "bridge"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecs_service" "cellov1_service" {
+  name            = "cellov1-service"
+  cluster         = aws_ecs_cluster.web-cluster.id
+  task_definition = aws_ecs_task_definition.task-definition-cellov1.arn
+  desired_count   = 1
+  ordered_placement_strategy {
+    type  = "binpack"
+    field = "cpu"
+  }
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.cellov1_lb_target_group.arn}"
+    container_name   = "cellov1-container"
+    container_port   = 8080
+  }
+  # Optional: Allow external changes without Terraform plan difference(for example ASG)
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+  launch_type = "EC2"
+  depends_on  = [aws_lb_listener.cellov1-secure-listener]
+}
+
+resource "aws_cloudwatch_log_group" "cellov1_log_group" {
+  name = "/ecs/cellov1-container"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+# cellov2
+resource "aws_ecs_task_definition" "task-definition-cellov2" {
+  family                = "cellov2"
+  container_definitions = file("container-definitions/cellov2-def.json")
+  network_mode          = "bridge"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecs_service" "cellov2_service" {
+  name            = "cellov2-service"
+  cluster         = aws_ecs_cluster.web-cluster.id
+  task_definition = aws_ecs_task_definition.task-definition-cellov2.arn
+  desired_count   = 1
+  ordered_placement_strategy {
+    type  = "binpack"
+    field = "cpu"
+  }
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.cellov2_lb_target_group.arn}"
+    container_name   = "cellov2-container"
+    container_port   = 8080
+  }
+  # Optional: Allow external changes without Terraform plan difference(for example ASG)
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+  launch_type = "EC2"
+  depends_on  = [aws_lb_listener.cellov2-secure-listener]
+}
+
+resource "aws_cloudwatch_log_group" "cellov2_log_group" {
+  name = "/ecs/cellov2-container"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+# clothov4
+resource "aws_ecs_task_definition" "task-definition-clothov4" {
+  family                = "clothov4"
+  container_definitions = file("container-definitions/clothov4-def.json")
+  network_mode          = "bridge"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
+
+resource "aws_ecs_service" "clothov4_service" {
+  name            = "clothov4-service"
+  cluster         = aws_ecs_cluster.web-cluster.id
+  task_definition = aws_ecs_task_definition.task-definition-clothov4.arn
+  desired_count   = 1
+  ordered_placement_strategy {
+    type  = "binpack"
+    field = "cpu"
+  }
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.clothov4_lb_target_group.arn}"
+    container_name   = "clothov4-container"
+    container_port   = 9000
+  }
+  # Optional: Allow external changes without Terraform plan difference(for example ASG)
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+  launch_type = "EC2"
+  depends_on  = [aws_lb_listener.clothov4-secure-listener]
+}
+
+resource "aws_cloudwatch_log_group" "clothov4_log_group" {
+  name = "/ecs/clothov4-container"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "gjohnson"
+  }
+}
