@@ -2,7 +2,7 @@ resource "aws_ecs_cluster" "web-cluster" {
   name               = var.cluster_name
   capacity_providers = [aws_ecs_capacity_provider.test.name]
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -44,7 +44,7 @@ resource "aws_ecs_task_definition" "task-definition-test" {
   container_definitions = file("container-definitions/container-def.json")
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -75,7 +75,7 @@ resource "aws_ecs_service" "service" {
 resource "aws_cloudwatch_log_group" "log_group" {
   name = "/ecs/frontend-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -87,7 +87,7 @@ resource "aws_ecs_task_definition" "task-definition-eugenelab" {
   container_definitions = file("container-definitions/eugenelab-def.json")
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -117,7 +117,7 @@ resource "aws_ecs_service" "eugenelab_service" {
 resource "aws_cloudwatch_log_group" "eugenelab_log_group" {
   name = "/ecs/eugenelab-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -128,7 +128,7 @@ resource "aws_ecs_task_definition" "task-definition-fpselection" {
   container_definitions = file("container-definitions/fpselection-def.json")
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -158,7 +158,7 @@ resource "aws_ecs_service" "fpselection_service" {
 resource "aws_cloudwatch_log_group" "fpselection_log_group" {
   name = "/ecs/fpselection-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -169,7 +169,7 @@ resource "aws_ecs_task_definition" "task-definition-parchmint" {
   container_definitions = file("container-definitions/parchmint-def.json")
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -199,7 +199,7 @@ resource "aws_ecs_service" "parchmint_service" {
 resource "aws_cloudwatch_log_group" "parchmint_log_group" {
   name = "/ecs/parchmint-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -211,7 +211,7 @@ resource "aws_ecs_task_definition" "task-definition-minieugene" {
   container_definitions = file("container-definitions/minieugene-def.json")
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -241,7 +241,7 @@ resource "aws_ecs_service" "minieugene_service" {
 resource "aws_cloudwatch_log_group" "minieugene_log_group" {
   name = "/ecs/minieugene-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -252,7 +252,7 @@ resource "aws_ecs_task_definition" "task-definition-cellov1" {
   container_definitions = file("container-definitions/cellov1-def.json")
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -282,7 +282,7 @@ resource "aws_ecs_service" "cellov1_service" {
 resource "aws_cloudwatch_log_group" "cellov1_log_group" {
   name = "/ecs/cellov1-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -300,7 +300,7 @@ resource "aws_ecs_task_definition" "task-definition-cellov2" {
   }
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -330,7 +330,7 @@ resource "aws_ecs_service" "cellov2_service" {
 resource "aws_cloudwatch_log_group" "cellov2_log_group" {
   name = "/ecs/cellov2-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -341,7 +341,7 @@ resource "aws_ecs_task_definition" "task-definition-clothov4" {
   container_definitions = file("container-definitions/clothov4-def.json")
   network_mode          = "bridge"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -371,7 +371,7 @@ resource "aws_ecs_service" "clothov4_service" {
 resource "aws_cloudwatch_log_group" "clothov4_log_group" {
   name = "/ecs/clothov4-container"
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }

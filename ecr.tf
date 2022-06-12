@@ -5,7 +5,7 @@ resource "aws_ecr_repository" "eugene_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -40,7 +40,7 @@ resource "aws_ecr_repository" "minieugene_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -75,7 +75,7 @@ resource "aws_ecr_repository" "constellationjs_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -110,7 +110,7 @@ resource "aws_ecr_repository" "fluigicloud_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -145,7 +145,7 @@ resource "aws_ecr_repository" "raven_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -180,7 +180,7 @@ resource "aws_ecr_repository" "clothov4_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -215,7 +215,7 @@ resource "aws_ecr_repository" "clothov3_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -251,7 +251,7 @@ resource "aws_ecr_repository" "cellov1_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -286,7 +286,7 @@ resource "aws_ecr_repository" "cellov2_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -321,7 +321,7 @@ resource "aws_ecr_repository" "fpselection_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -357,7 +357,7 @@ resource "aws_ecr_repository" "parchmint_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -394,7 +394,7 @@ resource "aws_ecr_repository" "aquarium_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -430,7 +430,7 @@ resource "aws_ecr_repository" "knox_repo" {
     scan_on_push = true
   }
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }

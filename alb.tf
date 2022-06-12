@@ -4,7 +4,7 @@ resource "aws_lb" "test-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
@@ -27,7 +27,7 @@ resource "aws_security_group" "lb" {
   }
 
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
 }
@@ -73,7 +73,7 @@ resource "aws_lb" "eugenelab-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
@@ -131,7 +131,7 @@ resource "aws_lb" "fpselection-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
@@ -171,7 +171,7 @@ resource "aws_lb" "parchmint-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
@@ -211,7 +211,7 @@ resource "aws_lb" "minieugene-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
@@ -250,7 +250,7 @@ resource "aws_lb" "cellov2-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
@@ -289,7 +289,7 @@ resource "aws_lb" "cellov1-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
@@ -328,7 +328,7 @@ resource "aws_lb" "clothov4-lb" {
   internal           = false
   subnets            = module.vpc.public_subnets
   tags = {
-    "env"       = "dev"
+    "env"       = "prod"
     "createdBy" = "gjohnson"
   }
   security_groups = [aws_security_group.lb.id]
